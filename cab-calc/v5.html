@@ -13,7 +13,7 @@
 <meta property="og:image" content="https://YOUR-DOMAIN/path/cab-economics-preview.png">
 <meta property="og:url" content="https://YOUR-DOMAIN/cab-economics">
 -->
-<!-- v2q: back link removed; plain sitewide footer added; /js/analytics.js loaded. v2p: Running Costs subsections show a total in every header; + Add item moved to a footer with item count (option B). v2o: Calculator sections show a description when open and a live data line when collapsed (Plain text 2, under the title). v2n: Summary card Option A (EMI / overheads per km), no chart, shorter labels. v2m: Summary card columns rearranged; Trip Calc text/card tweaks. v2l: Trip Calc fuel unit dropdown, renamed text lines and per-km rows. v2k: Trip Calc Copy button is icon-only with hover tooltip. v2j: Guide button is icon-only with a hover tooltip. v2i: numbered titles (1.), Guide panel + first-visit note, source URL in Trip Calc text. v2h: markdown heading renamed. v2g: renamed Trip Calc section titles and card headline. v2f: round chevron buttons on Calculator/Compare sections, Trip Calc collapse fix. v2e: Trip Calc layout (3 equal sections, collapsible on mobile, controls in tab row). v2d: Trip Calc tab (quick calculator). v2c: Share page to (WhatsApp, Facebook, X, Telegram, LinkedIn, Email). v2b: card line-height fix, watermark = domain/cab-economics. v2a: Summary tab (layout D card), share link / share image / copy / download -->
+<!-- v2q: back link removed; body bottom padding moved into the footer (phone only, clears the fixed bar); plain sitewide footer added; /js/analytics.js loaded. v2p: Running Costs subsections show a total in every header; + Add item moved to a footer with item count (option B). v2o: Calculator sections show a description when open and a live data line when collapsed (Plain text 2, under the title). v2n: Summary card Option A (EMI / overheads per km), no chart, shorter labels. v2m: Summary card columns rearranged; Trip Calc text/card tweaks. v2l: Trip Calc fuel unit dropdown, renamed text lines and per-km rows. v2k: Trip Calc Copy button is icon-only with hover tooltip. v2j: Guide button is icon-only with a hover tooltip. v2i: numbered titles (1.), Guide panel + first-visit note, source URL in Trip Calc text. v2h: markdown heading renamed. v2g: renamed Trip Calc section titles and card headline. v2f: round chevron buttons on Calculator/Compare sections, Trip Calc collapse fix. v2e: Trip Calc layout (3 equal sections, collapsible on mobile, controls in tab row). v2d: Trip Calc tab (quick calculator). v2c: Share page to (WhatsApp, Facebook, X, Telegram, LinkedIn, Email). v2b: card line-height fix, watermark = domain/cab-economics. v2a: Summary tab (layout D card), share link / share image / copy / download -->
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -256,7 +256,7 @@
   .ft a:hover{color:var(--fg);text-decoration:underline} .ft a{padding:4px 0}
 </style>
 </head>
-<body class="pb-24 lg:pb-10">
+<body>
 
 <header class="sticky top-0 z-40 border-b bd" style="background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(8px)">
   <div class="max-w-7xl mx-auto px-4 lg:px-8 h-14 flex items-center justify-between">
@@ -489,7 +489,7 @@
   </section>
 </main>
 
-<footer class="ft mt-10 border-t bd">
+<footer class="ft mt-10 border-t bd pb-20 lg:pb-0">
   <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 flex flex-col items-center gap-2 text-[13px] mu sm:flex-row sm:justify-between">
     <span class="order-2 sm:order-1">© <span id="ftYear">2026</span> Tools Hub</span>
     <nav class="order-1 sm:order-2 flex flex-wrap justify-center gap-x-5" aria-label="Footer"><a href="/">Home</a><a href="/about.html">About</a><a href="/tools/">Tools</a><a href="/contact.html">Contact us</a></nav>
