@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>News Tracker Editor (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafafa;--surface:#fff;--text:#0a0a0a;--muted:#6b6b6b;--border:#e6e6e6;--tile:#f2f2f2;--hover:#0a0a0a;--shadow:0 1px 2px rgba(0,0,0,.04)}
+:root[data-theme="dark"]{--bg:#0a0a0a;--surface:#141414;--text:#f5f5f5;--muted:#9a9a9a;--border:#2a2a2a;--tile:#1f1f1f;--hover:#f5f5f5;--shadow:none}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;transition:background .2s,color .2s}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+[hidden]{display:none!important}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex:none}
+.brand,.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.back{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;white-space:nowrap}.back:hover{color:var(--text)}
+.logo{width:32px;height:32px;border-radius:8px;background:var(--text);color:var(--bg);display:grid;place-items:center;font-size:15px}
+h1{margin:0;font-size:1.1rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--tile);color:var(--muted);white-space:nowrap}
+.pill.warn{background:var(--text);color:var(--bg)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;font-size:.85rem;font-weight:500;background:var(--surface);border:1px solid var(--border);border-radius:999px;cursor:pointer;box-shadow:var(--shadow);transition:border-color .15s;white-space:nowrap}
+.btn:hover:not(:disabled){border-color:var(--hover)}.btn:disabled{opacity:.5;cursor:default}
+.btn.pri{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn.sm{padding:4px 12px;font-size:.78rem;box-shadow:none}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--tile)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#9a9a9a;flex:none}
+.Developing{background:#d97706}.Confirmed{background:#16a34a}.Disputed{background:#dc2626}.Resolved{background:#6b7280}
+#app{flex:1;min-height:0;display:grid;grid-template-columns:320px 1fr}
+aside{display:flex;flex-direction:column;min-height:0;background:var(--surface);border-right:1px solid var(--border)}
+.side-head{padding:16px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.side-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem}
+input[type=search],.form input[type=text],.form input[type=date],.form select,.form textarea,.dlg input,.dlg select,.dlg textarea{width:100%;padding:9px 14px;font-size:.9rem;background:var(--bg);border:1px solid var(--border);border-radius:12px}
+input[type=search]{border-radius:999px;font-size:.88rem}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--hover)}
+textarea{resize:vertical;min-height:110px;line-height:1.5}
+#list{overflow-y:auto;padding:8px;flex:1}
+.conv{display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:4px;background:none;border:1px solid transparent;border-radius:12px;cursor:pointer}
+.conv:hover,.conv.active{background:var(--tile)}.conv.active{border-color:var(--hover)}
+.conv .t{font-size:.9rem;font-weight:600;overflow-wrap:anywhere}
+.conv .m{margin-top:4px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:.78rem;color:var(--muted)}
+.none{padding:16px;color:var(--muted);font-size:.88rem}
+main{display:flex;flex-direction:column;min-height:0;min-width:0}
+.placeholder{margin:auto;color:var(--muted);text-align:center;padding:48px 24px}
+#ed{display:flex;flex-direction:column;min-height:0;flex:1}
+.ed-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+.ed-head h2{margin:0;font-size:1.05rem;font-weight:700;letter-spacing:-.01em;flex:1;min-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.seg{display:inline-flex;padding:2px;background:var(--surface);border:1px solid var(--border);border-radius:999px}
+.seg button{border:0;background:none;padding:5px 14px;font-size:.8rem;font-weight:500;border-radius:999px;cursor:pointer;color:var(--muted)}
+.seg button:hover{color:var(--text)}.seg button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+#back{display:none}
+.body{flex:1;overflow-y:auto;padding:24px;display:grid;gap:24px;align-content:start;align-items:start}
+.body.split{grid-template-columns:1fr 1fr}
+.pane{min-width:0;max-width:820px;width:100%;margin:0 auto}
+.body.split .pane{max-width:none}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.form{display:flex;flex-direction:column;gap:16px}
+.form label{display:flex;flex-direction:column;gap:6px;font-size:.82rem;font-weight:600}
+.form small{font-weight:400;color:var(--muted);font-size:.78rem}
+.form label.chk{flex-direction:row;align-items:flex-start;gap:10px}
+.form label.chk input{width:16px;height:16px;margin-top:3px;accent-color:var(--text)}
+.tbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.tbar span{color:var(--muted);font-size:.88rem}
+.ups{display:flex;flex-direction:column;gap:12px}
+.u-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.u-top .acts{margin-left:auto;display:flex;gap:6px}
+.u h3,.tl h3{margin:0 0 4px;font-size:1rem;font-weight:600;letter-spacing:-.01em}
+.plain{white-space:pre-wrap;margin:0;font-size:.92rem;overflow-wrap:anywhere}
+.u a,.tl a{color:inherit;font-size:.82rem;font-weight:500}
+.time{font-size:.78rem;color:var(--muted)}
+.pv-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.pv{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px}
+.banner{margin-bottom:16px;padding:10px 14px;border:1px solid var(--border);border-left:3px solid var(--text);border-radius:12px;font-size:.85rem}
+.pv h1{white-space:normal;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:10px 0 24px}
+.pv-grid{display:grid;grid-template-columns:1fr 220px;gap:28px;align-items:start}
+.tl{list-style:none;margin:0;padding:0 0 0 22px;border-left:2px solid var(--border)}
+.tl li{position:relative;padding-bottom:24px}.tl li:last-child{padding-bottom:0}
+.tl li .dot{position:absolute;left:-28px;top:5px;box-shadow:0 0 0 4px var(--surface)}
+.pv-side{position:sticky;top:0;background:var(--tile);border-radius:12px;padding:16px;font-size:.85rem}
+.pv-side h4{margin:0 0 8px;font-size:.9rem}
+.pv-side dt{color:var(--muted);font-size:.75rem;margin-top:12px}.pv-side dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:90}
+.dlg{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:460px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.dlg h3{margin:0}.dlg label{display:flex;flex-direction:column;gap:4px;color:var(--muted);font-size:.78rem;font-weight:600}
+.dlg p{margin:0;min-height:1em;font-size:.85rem}.dlg .row{display:flex;gap:8px;justify-content:flex-end}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.85rem;font-weight:500;z-index:99}
+@media(max-width:1099px){#splitBtn{display:none}.body.split{grid-template-columns:1fr}}
+@media(max-width:760px){
+ .bar{padding:12px 16px}.back span{display:none}
+ #app{grid-template-columns:1fr}#app.reading aside{display:none}#app:not(.reading) main{display:none}
+ #back{display:inline-flex}.ed-head{padding:12px 16px}.body{padding:16px}
+ .pv-grid{grid-template-columns:1fr}.pv-side{position:static}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="brand">
+    <a class="back" href="index.html">← <span>Tools Hub</span></a>
+    <div class="logo" aria-hidden="true">📰</div>
+    <h1>News Tracker Editor</h1>
+    <span class="pill">Mockup</span>
+  </div>
+  <div class="actions">
+    <span class="pill" id="bk"></span>
+    <button class="btn" data-act="import" type="button">Import</button>
+    <button class="btn" data-act="exportPub" type="button">Export public JSON</button>
+    <button class="btn pri" data-act="backup" type="button">Backup</button>
+    <button class="btn" id="themeBtn" data-act="theme" type="button" aria-label="Switch theme">🌙</button>
+    <input type="file" id="file" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<div id="app">
+  <aside>
+    <div class="side-head">
+      <div class="side-title">Stories <span class="pill" id="count"></span></div>
+      <input type="search" id="q" placeholder="Search stories" aria-label="Search stories">
+      <button class="btn pri" data-act="new" type="button" style="justify-content:center">+ New story</button>
+    </div>
+    <div id="list"></div>
+  </aside>
+  <main>
+    <div class="placeholder" id="empty">Select a story, or start a new one.</div>
+    <div id="ed" hidden>
+      <div class="ed-head">
+        <button class="btn" id="back" data-act="back" type="button">← All</button>
+        <h2 id="hTitle"></h2>
+        <span id="hMeta"></span>
+        <div class="seg" role="group" aria-label="Story sections">
+          <button type="button" data-tab="details">Details</button>
+          <button type="button" data-tab="timeline">Timeline</button>
+          <button type="button" data-tab="preview">Preview</button>
+        </div>
+        <button class="btn" id="splitBtn" data-act="split" type="button" aria-pressed="false">Split view</button>
+      </div>
+      <div class="body" id="body"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+var KEY='news-editor-v0', META='news-editor-meta', STAT=['Developing','Confirmed','Disputed','Resolved'];
+var mem={}, sel=null, tab='details', split=false, editId=null;
+var $=function(id){return document.getElementById(id)};
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fmt(d){return d?new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):''}
+function today(){return new Date().toISOString().slice(0,10)}
+
+var SAMPLE=[
+ {id:'s1',title:'Metro extension gets final approval',tag:'Transport',file:'news1.html',draft:false,updates:[
+  {id:'u1',date:'2026-09-12',status:'Developing',headline:'Route proposal sent to the state board',text:'The planning body submitted the revised route for the eastern extension.\nA decision is expected after a public hearing.',source:'https://example.com/metro-route'},
+  {id:'u2',date:'2026-09-20',status:'Developing',headline:'Public hearing scheduled',text:'Residents can submit objections until the end of the month.',source:''},
+  {id:'u3',date:'2026-09-29',status:'Confirmed',headline:'Board approves the extension',text:'The board cleared the route with two changes to station locations.',source:'https://example.com/metro-approved'}]},
+ {id:'s2',title:'Data rules draft opens for comments',tag:'Policy',file:'news2.html',draft:false,updates:[
+  {id:'u4',date:'2026-09-05',status:'Developing',headline:'Draft published for 30-day consultation',text:'The draft covers consent, storage limits and breach reporting.',source:''},
+  {id:'u5',date:'2026-09-26',status:'Disputed',headline:'Industry groups object to the consent clause',text:'Three trade bodies say the clause is unworkable for small firms.',source:'https://example.com/consent-clause'}]},
+ {id:'s3',title:'New airport terminal opening date',tag:'Travel',file:'news3.html',draft:true,updates:[
+  {id:'u6',date:'2026-10-01',status:'Developing',headline:'Opening date still unannounced',text:'Operators say final safety checks are under way.',source:''}]}
+];
+var data, meta;
+try{data=JSON.parse(lsGet(KEY))}catch(e){}
+if(!data||!Array.isArray(data.stories))data={stories:JSON.parse(JSON.stringify(SAMPLE))};
+try{meta=JSON.parse(lsGet(META))}catch(e){}
+if(!meta)meta={edited:0,backed:0};
+
+function save(){lsSet(KEY,JSON.stringify(data));meta.edited=Date.now();lsSet(META,JSON.stringify(meta));renderBackup()}
+function get(id){return data.stories.filter(function(s){return s.id===id})[0]}
+function sorted(s){return s.updates.map(function(u,i){return[u,i]}).sort(function(a,b){return b[0].date.localeCompare(a[0].date)||b[1]-a[1]}).map(function(x){return x[0]})}
+function cur(s){return sorted(s)[0]}
+function last(s){var c=cur(s);return c?c.date:''}
+function stPill(st){return '<span class="st"><i class="dot '+st+'"></i>'+st+'</span>'}
+function sPill(s){var c=cur(s);return c?stPill(c.status):'<span class="st">No updates yet</span>'}
+function safeUrl(u){return /^https?:\/\//i.test(u)}
+function srcLink(u){return !u?'':safeUrl(u)?'<a href="'+esc(u)+'" target="_blank" rel="noopener">Source</a>':'<span class="time">'+esc(u)+'</span>'}
+
+function renderBackup(){
+  var b=$('bk');
+  if(!meta.backed){b.textContent='Not backed up yet';b.className='pill warn'}
+  else if(meta.edited>meta.backed){b.textContent='Changes not backed up';b.className='pill warn'}
+  else{b.textContent='Backed up '+new Date(meta.backed).toLocaleDateString('en-IN',{day:'numeric',month:'short'});b.className='pill'}
+}
+function renderList(){
+  var q=$('q').value.trim().toLowerCase();
+  var arr=data.stories.filter(function(s){return !q||(s.title+' '+s.tag).toLowerCase().indexOf(q)>=0})
+    .sort(function(a,b){return (last(b)||'9999').localeCompare(last(a)||'9999')});
+  $('count').textContent=data.stories.length;
+  $('list').innerHTML=arr.length?arr.map(function(s){
+    return '<button class="conv'+(s.id===sel?' active':'')+'" data-open="'+s.id+'" type="button"><div class="t">'+esc(s.title||'Untitled story')+'</div><div class="m">'+sPill(s)+(s.draft?'<span class="pill">Draft</span>':'')+'<span>'+(last(s)?fmt(last(s)):'')+'</span></div></button>';
+  }).join(''):'<div class="none">No stories match your search.</div>';
+}
+function renderHead(s){
+  $('hTitle').textContent=s.title||'Untitled story';
+  $('hMeta').innerHTML=sPill(s)+(s.draft?' <span class="pill">Draft</span>':'');
+}
+function renderEd(){
+  var s=get(sel);
+  $('empty').hidden=!!s;$('ed').hidden=!s;
+  if(!s)return;
+  renderHead(s);
+  document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.tab===tab?'true':'false')});
+  $('splitBtn').setAttribute('aria-pressed',split?'true':'false');
+  $('splitBtn').className='btn'+(split?' pri':'');
+  var inner=tab==='details'?vDetails(s):tab==='timeline'?vTimeline(s):'';
+  var pv=tab==='preview'||split;
+  $('body').className='body'+(split&&tab!=='preview'?' split':'');
+  $('body').innerHTML=(tab!=='preview'?'<div class="pane">'+inner+'</div>':'')+(pv?'<div class="pane" id="pv">'+vPreview(s)+'</div>':'');
+}
+function vDetails(s){
+  return '<div class="form card">'+
+   '<label>Title<input type="text" data-f="title" value="'+esc(s.title)+'"></label>'+
+   '<label>Tag<input type="text" data-f="tag" value="'+esc(s.tag)+'"></label>'+
+   '<label>Page filename<input type="text" data-f="file" value="'+esc(s.file)+'"><small>Used when the HTML page is exported. Keep it the same after the first upload so links keep working.</small></label>'+
+   '<label class="chk"><input type="checkbox" data-f="draft"'+(s.draft?' checked':'')+'><span>Keep as draft<br><small>Drafts stay in the editor and are left out of the public JSON.</small></span></label>'+
+   '<div><button class="btn" data-act="delStory" type="button">Delete story</button></div></div>';
+}
+function vTimeline(s){
+  var us=sorted(s);
+  return '<div class="tbar"><span>'+us.length+(us.length===1?' update':' updates')+', newest first</span><button class="btn pri" data-act="addUpd" type="button">+ Add update</button></div>'+
+  '<div class="ups">'+(us.length?us.map(function(u){
+    return '<article class="card u"><div class="u-top">'+stPill(u.status)+'<span class="time">'+fmt(u.date)+'</span><span class="acts"><button class="btn sm" data-act="editUpd" data-id="'+u.id+'" type="button">Edit</button><button class="btn sm" data-act="delUpd" data-id="'+u.id+'" type="button">Delete</button></span></div><h3>'+esc(u.headline)+'</h3>'+(u.text?'<p class="plain">'+esc(u.text)+'</p>':'')+(u.source?'<div style="margin-top:6px">'+srcLink(u.source)+'</div>':'')+'</article>';
+  }).join(''):'<div class="none card">No updates yet. Add the first one to start the timeline.</div>')+'</div>';
+}
+function vPreview(s){
+  var us=sorted(s);
+  return '<div class="pv-bar"><span class="time">This is how the live page will look.</span><button class="btn" type="button" disabled title="Coming in the next step">Export HTML</button></div>'+
+  '<article class="pv">'+(s.draft?'<div class="banner">Draft: this story is not included in the public JSON.</div>':'')+
+  '<span class="pill">'+esc(s.tag||'General')+'</span><h1>'+esc(s.title||'Untitled story')+'</h1>'+
+  '<div class="pv-grid"><ol class="tl">'+(us.length?us.map(function(u){
+    return '<li><i class="dot '+u.status+'"></i><div class="time">'+fmt(u.date)+'</div><h3>'+esc(u.headline)+'</h3>'+(u.text?'<p class="plain">'+esc(u.text)+'</p>':'')+(u.source?'<div style="margin-top:4px">'+srcLink(u.source)+'</div>':'')+'</li>';
+  }).join(''):'<li class="none">No updates yet.</li>')+'</ol>'+
+  '<aside class="pv-side"><h4>Status</h4>'+sPill(s)+'<dl><dt>Last update</dt><dd>'+(last(s)?fmt(last(s)):'None')+'</dd><dt>First reported</dt><dd>'+(us.length?fmt(us[us.length-1].date):'None')+'</dd><dt>Updates</dt><dd>'+us.length+'</dd><dt>Topic</dt><dd>'+esc(s.tag||'General')+'</dd></dl></aside></div></article>';
+}
+function refreshLive(){var s=get(sel);if(!s)return;renderHead(s);renderList();if($('pv'))$('pv').innerHTML=vPreview(s)}
+
+/* dialogs */
+function closeOv(){var o=$('ov');if(o)o.remove()}
+function openUpd(id){
+  closeOv();editId=id||null;
+  var u=id?get(sel).updates.filter(function(x){return x.id===id})[0]:{date:today(),status:'Developing',headline:'',text:'',source:''};
+  document.body.insertAdjacentHTML('beforeend','<div id="ov"><div class="dlg" role="dialog" aria-label="Update"><h3>'+(id?'Edit update':'Add update')+'</h3>'+
+   '<label>Date<input id="md" type="date" value="'+esc(u.date)+'"></label>'+
+   '<label>Status after this update<select id="ms">'+STAT.map(function(x){return '<option'+(x===u.status?' selected':'')+'>'+x+'</option>'}).join('')+'</select></label>'+
+   '<label>Headline<input id="mh" type="text" value="'+esc(u.headline)+'"></label>'+
+   '<label>Story text<textarea id="mt">'+esc(u.text)+'</textarea></label>'+
+   '<label>Source link (optional)<input id="mu" type="text" value="'+esc(u.source)+'" placeholder="https://"></label>'+
+   '<p id="me"></p><div class="row"><button class="btn" data-act="cancel" type="button">Cancel</button><button class="btn pri" data-act="saveUpd" type="button">Save update</button></div></div></div>');
+  $('mh').focus();
+}
+function saveUpd(){
+  var s=get(sel),d=$('md').value,h=$('mh').value.trim();
+  if(!d||!h){$('me').textContent='Add a date and a headline.';return}
+  var o={date:d,status:$('ms').value,headline:h,text:$('mt').value.trim(),source:$('mu').value.trim()};
+  if(editId)Object.assign(s.updates.filter(function(x){return x.id===editId})[0],o);
+  else{o.id='u'+Date.now();s.updates.push(o)}
+  save();closeOv();renderList();renderEd();toast('Update saved');
+}
+function toast(m){var t=$('toast');if(t)t.remove();document.body.insertAdjacentHTML('beforeend','<div id="toast" role="status">'+esc(m)+'</div>');setTimeout(function(){var x=$('toast');if(x)x.remove()},2400)}
+
+/* import / export */
+function dl(name,obj){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
+function exportPub(){
+  var pub=data.stories.filter(function(s){return !s.draft}).map(function(s){var c=cur(s);return{id:s.id,title:s.title,tag:s.tag,status:c?c.status:'',updated:last(s),updates:s.updates.length,file:s.file}})
+    .sort(function(a,b){return b.updated.localeCompare(a.updated)});
+  dl('news.json',{generated:new Date().toISOString(),stories:pub});toast(pub.length+' published stories exported');
+}
+function backup(){dl('news-backup-'+today()+'.json',{version:1,stories:data.stories});meta.backed=Date.now();meta.edited=Math.min(meta.edited,meta.backed);lsSet(META,JSON.stringify(meta));renderBackup();toast('Backup downloaded')}
+function importFile(f){
+  if(!f)return;var r=new FileReader();
+  r.onload=function(){
+    var j;try{j=JSON.parse(r.result)}catch(e){return toast('This file is not valid JSON.')}
+    if(!j||!Array.isArray(j.stories)||!j.stories.every(function(s){return s&&Array.isArray(s.updates)}))return toast('This is not a full backup. Use a file from Backup, not the public JSON.');
+    if(!confirm('Replace all '+data.stories.length+' stories in this editor with '+j.stories.length+' from the file?'))return;
+    data={stories:j.stories};sel=null;save();renderList();renderEd();toast('Backup imported');
+  };
+  r.readAsText(f);
+}
+
+/* events */
+document.addEventListener('click',function(e){
+  if(e.target.id==='ov')return closeOv();
+  var t=e.target.closest('[data-act],[data-open],[data-tab]');if(!t)return;
+  var d=t.dataset;
+  if(d.open){sel=d.open;$('app').classList.add('reading');renderList();renderEd();return}
+  if(d.tab){tab=d.tab;renderEd();return}
+  var s=get(sel);
+  switch(d.act){
+   case'new':var n=data.stories.length+1;while(data.stories.some(function(x){return x.file==='news'+n+'.html'}))n++;
+     var ns={id:'s'+Date.now(),title:'Untitled story',tag:'General',file:'news'+n+'.html',draft:true,updates:[]};
+     data.stories.push(ns);sel=ns.id;tab='details';save();$('app').classList.add('reading');renderList();renderEd();break;
+   case'back':$('app').classList.remove('reading');break;
+   case'split':split=!split;renderEd();break;
+   case'addUpd':openUpd();break;
+   case'editUpd':openUpd(d.id);break;
+   case'delUpd':if(confirm('Delete this update?')){s.updates=s.updates.filter(function(u){return u.id!==d.id});save();renderList();renderEd()}break;
+   case'delStory':if(confirm('Delete "'+(s.title||'Untitled story')+'" and all its updates?')){data.stories=data.stories.filter(function(x){return x.id!==sel});sel=null;save();$('app').classList.remove('reading');renderList();renderEd()}break;
+   case'saveUpd':saveUpd();break;
+   case'cancel':closeOv();break;
+   case'import':$('file').click();break;
+   case'exportPub':exportPub();break;
+   case'backup':backup();break;
+   case'theme':setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');break;
+  }
+});
+function onField(e){
+  var f=e.target.dataset&&e.target.dataset.f;if(!f)return;
+  var s=get(sel);s[f]=e.target.type==='checkbox'?e.target.checked:e.target.value;save();refreshLive();
+}
+document.addEventListener('input',onField);
+document.addEventListener('change',function(e){if(e.target.type==='checkbox')onField(e)});
+$('q').addEventListener('input',renderList);
+$('file').addEventListener('change',function(e){importFile(e.target.files[0]);e.target.value=''});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeOv()});
+
+/* theme (same key as Tools Hub) */
+function setTheme(m){
+  var r=document.documentElement;if(m==='dark')r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');
+  $('themeBtn').textContent=m==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('hub-theme',m)}catch(e){}
+}
+var th='light';try{th=localStorage.getItem('hub-theme')||'light'}catch(e){}
+setTheme(th);
+renderBackup();renderList();renderEd();
+</script>
+</body>
+</html>
